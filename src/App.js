@@ -31,8 +31,8 @@ function App() {
     fetchData()
   }, [])
   return (
-    <div className="App">
-      <main className="App-main">
+    <div className='App'>
+      <main className='App-main'>
         <CustomTable characters={products} isLoading={isLoading} onCheckboxSelect={onCheckboxSelect}/>
       </main>
     </div>
