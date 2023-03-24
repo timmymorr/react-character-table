@@ -145,13 +145,13 @@ export default function CustomTable ({ characters, onCheckboxSelect }) {
                 </TableCell>
                 {['name', 'species', 'location', 'status', 'actions'].map(header => (
                   <TableCell key={header}>
-                    <TableSortLabel
+                    {header !== 'actions' ? <TableSortLabel
                       active={orderBy === header}
                       direction={orderBy === header ? order : 'asc'}
                       onClick={handleSort(header)}
                     >
                       {header.toUpperCase()}
-                    </TableSortLabel>
+                    </TableSortLabel> : header.toUpperCase()}
                   </TableCell>
                 ))}
               </TableRow>
