@@ -6,11 +6,8 @@ function App() {
   const [products, setProducts] = useState([])
   const [isLoading, setIsLoading] = useState(false)
 
-  const onCheckboxSelect = (evt) => {
-    console.log(evt)
-  }
-
   useEffect(() => {
+    // fetches the data from the API and sets the state
     async function fetchData() {
       setIsLoading(true)
       try {
@@ -33,7 +30,7 @@ function App() {
   return (
     <div className='App'>
       <main className='App-main'>
-        <CustomTable characters={products} isLoading={isLoading} onCheckboxSelect={onCheckboxSelect}/>
+        <CustomTable characters={products} isLoading={isLoading}/>
       </main>
     </div>
   );

@@ -31,6 +31,7 @@ export default function CustomTable ({ characters, onCheckboxSelect }) {
     unknown: '\u{1F610}'
   }
 
+  // handles the celection of the select all checkbox
   const handleSelectAll = (event) => {
     if (event.target.checked) {
       const allCharacters = characters.map((character) => character.name);
@@ -40,6 +41,7 @@ export default function CustomTable ({ characters, onCheckboxSelect }) {
     setSelected([]);
   };
 
+  // handles the selection of checkboxes in the table
   const handleClick = (name) => {
     const selectedIndex = selected.indexOf(name);
     let newSelected = [];
@@ -59,22 +61,26 @@ export default function CustomTable ({ characters, onCheckboxSelect }) {
     setSelected(newSelected);
   };
 
+  // sets the search term when characters are typed
   const handleSearch = (event) => {
     setSearch(event.target.value);
   };
 
+  // returns a function that sets the sort order and orderBy values. Taken from table docs
   const handleSort = (property) => (event) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
   };
 
+  // sets the order comparator, only descending is needed as we can use it's negative for ascending
   const getComparator = () => {
     return order === 'desc'
       ? (a, b) => descendingComparator(a, b, orderBy)
       : (a, b) => -descendingComparator(a, b, orderBy);
   };
-
+  
+  // used as a descending comparator
   const descendingComparator = (a, b, orderBy) => {
     if (b[orderBy] < a[orderBy]) {
       return -1;
@@ -85,22 +91,13 @@ export default function CustomTable ({ characters, onCheckboxSelect }) {
     return 0;
   };
 
-  function stableSort(array, comparator) {
-    const stabilizedThis = array.map((el, index) => [el, index]);
-    stabilizedThis.sort((a, b) => {
-      const order = comparator(a[0], b[0]);
-      if (order !== 0) {
-        return order;
-      }
-      return a[1] - b[1];
-    });
-    return stabilizedThis.map((el) => el[0]);
-  }
-
+  // returns an array filtered with characters with names matching the search terms
   const filteredCharacters = characters.filter(character => character.name.toLowerCase().includes(search.toLowerCase()))
 
-  const sortedCharacters = stableSort(filteredCharacters, getComparator(order, orderBy));
+  // returns an array containg the characters sorted based on the selected sort paramaters
+  const sortedCharacters = filteredCharacters.slice().sort(getComparator());
 
+  // returns boolean of whether a characters checkbox is selected or not
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
   return (
